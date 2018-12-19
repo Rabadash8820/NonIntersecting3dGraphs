@@ -53,7 +53,6 @@ namespace NonIntersecting3dGraphs {
 
         public void ResetNodes() {
             // Delete all existing nodes
-            Debug.Log("Delete existing");
             GameObject[] children =
                 GraphSpawner.CloneParent
                 .GetComponentsInChildren<Transform>()
@@ -64,18 +63,14 @@ namespace NonIntersecting3dGraphs {
                 DestroyImmediate(children[ch]);
 
             // Respawn nodes
-            Debug.Log("Spawn");
             GraphSpawner.Spawn();
-            Debug.Log("Get nodes");
             getNodes();
 
             // Adjust nodes, if requested
-            Debug.Log("Rotate");
             if (RotateGroups)
                 rotateGroups();
 
             // Check for edge intersections
-            Debug.Log("Intersections");
             checkIntersections();
         }
 
