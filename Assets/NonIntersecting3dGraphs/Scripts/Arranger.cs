@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -21,7 +21,7 @@ namespace NonIntersecting3dGraphs {
 
         [Header("Edge Intersection Gizmos")]
         public string CheckIntersectionsButton = "CheckIntersections";
-        public float IntersectionMarkerRadius = 0.2f;
+        public float IntersectionMarkerRadius = 0.05f;
         public Color IntersectionMarkerColor = Color.magenta;
 
         private void OnDrawGizmos() {

@@ -203,7 +203,7 @@ MonoBehaviour:
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
   CheckIntersectionsButton: CheckIntersections
-  IntersectionMarkerRadius: 0.2
+  IntersectionMarkerRadius: 0.05
   IntersectionMarkerColor: {r: 1, g: 0, b: 1, a: 1}
 --- !u!4 &164311898
 Transform:
