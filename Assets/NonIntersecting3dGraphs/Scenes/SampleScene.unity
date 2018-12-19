@@ -142,7 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GraphSpawner: {fileID: 1628337112}
-  RotateGroups: 0
+  RotateGroups: 1
   GroupEdgeGradient:
     serializedVersion: 2
     key0: {r: 0.9818833, g: 1, b: 0, a: 1}
@@ -202,7 +202,8 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  CheckIntersectionsButton: CheckIntersections
+  DrawEdges: 1
+  DrawIntersections: 1
   IntersectionMarkerRadius: 0.05
   IntersectionMarkerColor: {r: 1, g: 0, b: 1, a: 1}
 --- !u!4 &164311898

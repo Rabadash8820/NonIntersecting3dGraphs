@@ -20,7 +20,8 @@ namespace NonIntersecting3dGraphs {
         public Gradient IntraGroupEdgeGradient;
 
         [Header("Edge Intersection Gizmos")]
-        public string CheckIntersectionsButton = "CheckIntersections";
+        public bool DrawEdges = true;
+        public bool DrawIntersections = true;
         public float IntersectionMarkerRadius = 0.05f;
         public Color IntersectionMarkerColor = Color.magenta;
 
@@ -28,26 +29,10 @@ namespace NonIntersecting3dGraphs {
             if (_nodes.Length == 0)
                 return;
 
-            // Draw edges between all pairs of nodes
-            for (int g1 = 0; g1 < _nodes.Length; ++g1) {
-                Gizmos.color = GroupEdgeGradient.Evaluate((float)g1 / _nodes.Length);
-                for (int n1 = 0; n1 < _nodes[g1].Length; ++n1) {
-                    for (int g2 = g1; g2 < _nodes.Length; ++g2) {
-                        int initN2 = (g2 == g1) ? n1 + 1 : 0;
-                        if (UseSeparateIntraGroupEdgeGradient) {
-                            Gradient grad = (g2 == g1) ? IntraGroupEdgeGradient : GroupEdgeGradient;
-                            Gizmos.color = grad.Evaluate((float)g1 / _nodes.Length);
-                        }
-                        for (int n2 = initN2; n2 < _nodes[g2].Length; ++n2)
-                            Gizmos.DrawLine(_nodes[g1][n1].position, _nodes[g2][n2].position);
-                    }
-                }
-            }
-
-            // Draw edge intersections
-            Gizmos.color = IntersectionMarkerColor;
-            for (int i = 0; i < _intersections.Count; ++i)
-                Gizmos.DrawSphere(_intersections[i], IntersectionMarkerRadius);
+            if (DrawEdges)
+                drawEdges();
+            if (DrawIntersections)
+                drawIntersections();
         }
 
         public void ResetNodes() {
@@ -88,6 +73,27 @@ namespace NonIntersecting3dGraphs {
                 Transform trans = _nodes[g][0].parent.transform;
                 trans.localRotation = Quaternion.Euler(g * baseGrpRot * Vector3.up);
             }
+        }
+        private void drawEdges() {
+            for (int g1 = 0; g1 < _nodes.Length; ++g1) {
+                Gizmos.color = GroupEdgeGradient.Evaluate((float)g1 / _nodes.Length);
+                for (int n1 = 0; n1 < _nodes[g1].Length; ++n1) {
+                    for (int g2 = g1; g2 < _nodes.Length; ++g2) {
+                        int initN2 = (g2 == g1) ? n1 + 1 : 0;
+                        if (UseSeparateIntraGroupEdgeGradient) {
+                            Gradient grad = (g2 == g1) ? IntraGroupEdgeGradient : GroupEdgeGradient;
+                            Gizmos.color = grad.Evaluate((float)g1 / _nodes.Length);
+                        }
+                        for (int n2 = initN2; n2 < _nodes[g2].Length; ++n2)
+                            Gizmos.DrawLine(_nodes[g1][n1].position, _nodes[g2][n2].position);
+                    }
+                }
+            }
+        }
+        private void drawIntersections() {
+            Gizmos.color = IntersectionMarkerColor;
+            for (int i = 0; i < _intersections.Count; ++i)
+                Gizmos.DrawSphere(_intersections[i], IntersectionMarkerRadius);
         }
         private void checkIntersections() {
             Gizmos.color = IntersectionMarkerColor;
