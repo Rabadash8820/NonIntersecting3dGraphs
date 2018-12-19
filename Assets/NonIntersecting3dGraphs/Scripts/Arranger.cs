@@ -68,7 +68,7 @@ namespace NonIntersecting3dGraphs {
                           ).ToArray();
         }
         private void rotateGroups() {
-            float baseGrpRot = (360f / GraphSpawner.NumToGroupBy) / _nodes.Length;
+            float baseGrpRot = (360f / GraphSpawner.NumToGroupBy) / (_nodes.Length - 1);
             for (int g = 0; g < _nodes.Length - 1; ++g) {
                 Transform trans = _nodes[g][0].parent.transform;
                 trans.localRotation = Quaternion.Euler(g * baseGrpRot * Vector3.up);
