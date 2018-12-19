@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -38,9 +38,8 @@ namespace NonIntersecting3dGraphs {
                             Gradient grad = (g2 == g1) ? IntraGroupEdgeGradient : GroupEdgeGradient;
                             Gizmos.color = grad.Evaluate((float)g1 / _nodes.Length);
                         }
-                        for (int n2 = initN2; n2 < _nodes[g2].Length; ++n2) {
+                        for (int n2 = initN2; n2 < _nodes[g2].Length; ++n2)
                             Gizmos.DrawLine(_nodes[g1][n1].position, _nodes[g2][n2].position);
-                        }
                     }
                 }
             }
@@ -90,7 +89,7 @@ namespace NonIntersecting3dGraphs {
                 trans.localRotation = Quaternion.Euler(g * baseGrpRot * Vector3.up);
             }
         }
-        public void checkIntersections() {
+        private void checkIntersections() {
             Gizmos.color = IntersectionMarkerColor;
 
             _intersections.Clear();
@@ -114,24 +113,23 @@ namespace NonIntersecting3dGraphs {
                                                 continue;
 
                                             // Check if these two edges intersect
-                                            Vector2 pos1 = _nodes[e1g1][e1n1].position;
-                                            Vector2 pos2 = _nodes[e2g1][e2n1].position;
-                                            Vector2 dir1 = pos1 - (Vector2)_nodes[e1g2][e1n2].position;
-                                            Vector2 dir2 = pos2 - (Vector2)_nodes[e2g2][e2n2].position;
-                                            float determinant = dir1.x * -dir2.y - dir2.x * -dir1.y;
+                                            Vector3 pos1 = _nodes[e1g1][e1n1].position;
+                                            Vector3 pos2 = _nodes[e2g1][e2n1].position;
+                                            Vector3 dir1 = pos1 - _nodes[e1g2][e1n2].position;
+                                            Vector3 dir2 = pos2 - _nodes[e2g2][e2n2].position;
+                                            float determinant = dir1.x * dir2.y - dir2.x * dir1.y;
                                             if (determinant == 0f)
                                                 continue;
 
-                                            // If so, then draw a marker at the point of intersection
-                                            var inverseMatrix = new Matrix4x4();
-                                            inverseMatrix.SetRow(0, 1f / determinant * -dir2);
-                                            inverseMatrix.SetRow(1, 1f / determinant * dir1);
-                                            var posMatrix = new Matrix4x4(pos1 - pos2, Vector4.zero, Vector4.zero, Vector4.zero);
-                                            Matrix4x4 resMatrix = inverseMatrix * posMatrix;
-                                            float param = resMatrix[0, 0];
-                                            Vector3 intersect = dir1 * param + pos1;
-                                            _intersections.Add(intersect);
+                                            // Check that the intersection point is inside the "coil" of the graph
+                                            float t2 = 1f / determinant * (-dir1.x * (pos2.y - pos1.y) + dir1.y * (pos2.x - pos1.x));
+                                            //bool within = (0f < Mathf.Abs(t2) && Mathf.Abs(t2) < Mathf.Abs((pos2.x - pos1.x) / dir1.x));
+                                            //if (!within)
+                                            //    continue;
 
+                                            // If so, add a marker for this intersection point
+                                            Vector3 intersect = pos2 + dir2 * t2;
+                                            _intersections.Add(intersect);
                                         }
                                     }
                                 }

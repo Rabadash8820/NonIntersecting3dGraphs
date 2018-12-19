@@ -1,7 +1,6 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
+using UnityEngine;
 using E = UnityEditor;
-using System.Linq;
 
 namespace NonIntersecting3dGraphs.Editor {
 
